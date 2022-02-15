@@ -25,7 +25,7 @@
 set bell-style none
 
 # Stop bash completing a word repition if the cursor is in the middle of the word
-set skip-completed-text-on
+set skip-completed-text on
 set completion-ignore-case on
 set completion-prefix-display-length 2
 
