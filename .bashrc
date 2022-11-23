@@ -26,6 +26,9 @@ alias cc='git rev-parse HEAD'
 alias cc='git rev-parse --short HEAD'
 alias on='conda activate'
 alias off='conda deactivate'
+alias c='cargo'
+alias cr='cargo run'
+alias cb='cargo build'
 
 export PATH=~/.local/bin:$PATH
 export EDITOR=vim
@@ -52,7 +55,33 @@ check_bin() {
     fi
 }
 
+cdg () {
+    # cd to git checkouts. This should take a variable that can be PC dependent.
+    # Also slightly odd behaviour for paths with capitals in Windows
+    local target_dir=~/Documents/GitHub
+
+    if [[ $# -ne 0 ]]; then
+        target_dir="${target_dir}/${1}"
+    fi
+    
+    if [[ -d "$target_dir" ]]; then
+        cd "$target_dir"
+    else
+        echo "Unrecognised dir: $target_dir"
+    fi
+}
+
+rg() {
+    if [[ -t 1 ]]; then
+        command rg -p "$@" | less -RFX
+    else
+        command rg "$@"
+    fi
+}
+
 check_bin bat
 check_bin fd
 check_bin rg
 check_bin conda
+check_bin jq
+check_bin xh
