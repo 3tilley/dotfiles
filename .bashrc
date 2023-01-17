@@ -29,10 +29,12 @@ alias off='conda deactivate'
 alias c='cargo'
 alias cr='cargo run'
 alias cb='cargo build'
+alias rg5='rg -C5'
+
 
 export PATH=~/.local/bin:$PATH
 export EDITOR=vim
-  
+
 # History operations - largely taken from https://www.thomaslaurenson.com/blog/2018-07-02/better-bash-history/
 HISTTIMEFORMAT='%F %T '
 HISTFILESIZE=-1
@@ -55,10 +57,20 @@ check_bin() {
     fi
 }
 
+
+# This is done here rather than further up because it gives a chance for bash_local to use defined functions
+[[ -f ~/.bash_local ]] && source ~/.bash_local
+
+# cd to git checkouts. This looks at a variable that can be set by .bash_local
+# Also slightly odd behaviour for paths with capitals in Windows
+if [[ "$OSTYPE" == "msys" ]]; then
+    CDG=${CDG:-~/Documents/GitHub}
+elif [[ "$OSTYPE" == "linux" ]]; then
+    CDG=${CDG:-~/git}
+fi
+
 cdg () {
-    # cd to git checkouts. This should take a variable that can be PC dependent.
-    # Also slightly odd behaviour for paths with capitals in Windows
-    local target_dir=~/Documents/GitHub
+    local target_dir=$CDG
 
     if [[ $# -ne 0 ]]; then
         target_dir="${target_dir}/${1}"
@@ -70,6 +82,13 @@ cdg () {
         echo "Unrecognised dir: $target_dir"
     fi
 }
+
+# Completion code from https://stackoverflow.com/a/57426783
+# Note that this isn't guaranteed to work with whacky filenames, spaces etc
+_cdg_completions() {
+    ( cd $CDG_CHECKOUT_DIR; printf "%s/\n" "$2"* )
+} && complete -o nospace -C _cdg_completions cdg
+
 
 rg() {
     if [[ -t 1 ]]; then

@@ -9,7 +9,11 @@
 "\e[6~": history-search-forward     # Page down
 
 # Cycle through autocomplete options
-"\e[Z": menu-complete               # Shift-Tab
+#"\e[Z": menu-complete               # Shift-Tab
+"\C-j": menu-complete               # Ctrl-j
+"\C-k": menu-complete-backward      # Ctrl-k
+# TODO: Get bash to do this by date modified instead of alphabetical
+# https://unix.stackexchange.com/questions/90349/autocomplete-newest-file
 
 # Home and end in different terminals
 "\e[7~": beginning-of-line          # Home Key
