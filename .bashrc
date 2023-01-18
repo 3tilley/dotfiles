@@ -85,8 +85,9 @@ cdg () {
 
 # Completion code from https://stackoverflow.com/a/57426783
 # Note that this isn't guaranteed to work with whacky filenames, spaces etc
+# TODO: This does something weird when there are no matches
 _cdg_completions() {
-    ( cd $CDG_CHECKOUT_DIR; printf "%s/\n" "$2"* )
+    ( cd $CDG; printf "%s/\n" "$2"* )
 } && complete -o nospace -C _cdg_completions cdg
 
 
@@ -96,6 +97,14 @@ rg() {
     else
         command rg "$@"
     fi
+}
+
+github-https() {
+    "git remote set-url origin https://github.com/$(git remote get-url origin | sed 's/https:\/\/github.com\///' | sed 's/git@github.com://')"
+}
+
+github-ssh() {
+    "git remote set-url origin git@github.com:$(    git remote get-url origin | sed 's/https:\/\/github.com\///' | sed 's/git@github.com://')"
 }
 
 check_bin bat
