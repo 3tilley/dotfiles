@@ -38,3 +38,43 @@ let foo = Foo::new();
 (foo.callable)(255)
 ```
 
+# Using clap
+
+The following will create a CLI with subcommands. Requires verbosity crate
+
+```
+#[derive(Parser)]
+#[command(arg_required_else_help = true)]
+struct Cli {
+    #[command(subcommand)]
+    command: Command,
+    #[command(flatten)]
+    verbose: clap_verbosity_flag::Verbosity,
+}
+
+#[derive(Subcommand, Debug)]
+enum Command {
+    /// List audio devices
+    Foo {
+        #[clap(long, short, action)]
+        input: bool,
+        #[clap(long, short, action)]
+        output: bool,
+        #[clap(long, short, action)]
+        json: bool,
+    },
+    /// Switch default audio device
+    Switch {
+    },
+}
+
+pub fn main() {
+    let args = Cli::parse();
+    match &args.command {
+        Command::Foo {
+            ....
+        }
+    }
+}
+```
+

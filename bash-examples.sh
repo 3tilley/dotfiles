@@ -44,3 +44,12 @@ elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
 else
     echo "Unrecognised OS"
 fi
+
+#############
+# Clipboard #
+#############
+
+# msys copy
+echo "a"  | clip
+# msys paste
+cat /dev/clipboard

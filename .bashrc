@@ -30,6 +30,8 @@ alias c='cargo'
 alias cr='cargo run'
 alias cb='cargo build'
 alias rg5='rg -C5'
+# Consider looking for mamba and then defaulting to micromamba
+alias mm=micromamba
 
 
 export PATH=~/.local/bin:$PATH
