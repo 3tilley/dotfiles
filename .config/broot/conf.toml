@@ -1,0 +1,26 @@
+[[verbs]]
+invocation = "ok"
+key = "ctrl-enter"
+leave_broot = true
+execution = ":print_path"
+apply_to = "any"
+
+[[verbs]]
+key = "ctrl-h"
+execution = ":parent"
+
+[[verbs]]
+key = "ctrl-l"
+execution = ":focus"
+
+[[verbs]]
+key = "ctrl-k"
+execution = ":line_up"
+
+[[verbs]]
+key = "ctrl-j"
+execution = ":line_down"
+
+[[verbs]]
+key = "ctrl-y"
+execution = ":toggle_preview"
