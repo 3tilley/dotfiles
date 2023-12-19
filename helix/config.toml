@@ -1,11 +1,15 @@
 [keys.normal]
 Z = { Q = ":quit!", Z = ":x" }
+D = "kill_to_line_end"
 
 [keys.insert]
 k = { j = "normal_mode" }
 
 [editor]
 auto-save=true
+
+[editor.soft-wrap]
+enable=true
 
 [editor.cursor-shape]
 insert = "bar"

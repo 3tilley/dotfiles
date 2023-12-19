@@ -21,6 +21,7 @@ alias gpl='git pull'
 alias gplr='git pull --rebase'
 alias gb='git rev-parse --abbrev-ref HEAD'
 alias gbc='gb | tee clip'
+alias gsb='git-select-branch'
 alias cd..='cd ..'
 alias cc='git rev-parse HEAD'
 alias cc='git rev-parse --short HEAD'
@@ -30,8 +31,11 @@ alias c='cargo'
 alias cr='cargo run'
 alias cb='cargo build'
 alias rg5='rg -C5'
+alias rgg='rg -C5'
 # Consider looking for mamba and then defaulting to micromamba
 alias mm=micromamba
+# alias rr=rustrover64
+alias cargodeps='cargo metadata --no-deps | jq ".packages[] | {name, description}"'
 
 
 export PATH=~/.local/bin:$PATH
@@ -71,6 +75,14 @@ elif [[ "$OSTYPE" == "linux" ]]; then
     CDG=${CDG:-~/git}
 fi
 
+## Clipboard
+#if [[ "$OSTYPE" == "msys" ]]; then
+    #v = /dev/clipboard
+#elif [[ "$OSTYPE" == "linux" ]]; then
+    ## TODO
+    #v = /dev/clipboard
+#fi
+
 cdg () {
     local target_dir=$CDG
 
@@ -109,9 +121,14 @@ github-ssh() {
     "git remote set-url origin git@github.com:$(    git remote get-url origin | sed 's/https:\/\/github.com\///' | sed 's/git@github.com://')"
 }
 
+# TODO Fix this
+eval "$(starship init bash)"
+
 check_bin bat
 check_bin fd
 check_bin rg
 check_bin conda
 check_bin jq
 check_bin xh
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash --disable-up-arrow)"
