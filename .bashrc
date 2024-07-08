@@ -29,7 +29,11 @@ alias on='conda activate'
 alias off='conda deactivate'
 alias c='cargo'
 alias cr='cargo run'
+alias crr='cargo run --release'
+alias crd='cargo run --debug'
 alias cb='cargo build'
+alias cbr='cargo build --release'
+alias cbd='cargo build --debug'
 alias rg5='rg -C5'
 alias rgg='rg -C5'
 # Consider looking for mamba and then defaulting to micromamba
@@ -122,7 +126,7 @@ github-ssh() {
 }
 
 # TODO Fix this
-eval "$(starship init bash)"
+#eval "$(starship init bash)"
 
 check_bin bat
 check_bin fd
