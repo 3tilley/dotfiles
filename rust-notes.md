@@ -38,6 +38,7 @@ let foo = Foo::new();
 (foo.callable)(255)
 ```
 
+<<<<<<< Updated upstream
 # Using clap
 
 The following will create a CLI with subcommands. Requires verbosity crate
@@ -77,4 +78,78 @@ pub fn main() {
     }
 }
 ```
+
+
+# Older syntax for importing macros
+```
+#[macro_use]
+extern crate log
+```
+
+# Enums
+// Default syntax for enums
+//
+
+# Borrowing
+The `&` symbol borrows a reference `T -> &T`: i.e. you don't take ownership of it. `*` deferences this into a value `&T -> T`, 
+but there is still no ownership. `*` cannot transfer ownership since it was originally a reference. When this works automatically
+it's because the type implemented `Copy`, and therefore a copy of the reference can be taken.
+
+Additionally calling methods will automatically add the required `&`, `&mut`, or `*`. `p1.distance()` is equivalent to `(&p1).distance()`
+
+In general `&*` shouldn't do anything, however some types like `String` overload Deref to make it do other things.
+
+# Copy vs Clone
+`Copy` says that a type can be duplicated purely with memcpy. `Clone` offers an interface to perform a potentially expensive cloning
+operation. Anything copyable can be cloneable, but the reverse isn't true. Both methods need to be implemented or derived though.
+
+# Iterators
+
+Like Python, `Iterator` is just a trait with a single method: `next(&mut self) -> Option<Self::Item>`. This is rarely used directly
+though.
+
+On `Vec<T>`:
+* `iter()` iterates over the items by reference
+* `iter_mut()` iterates over the items giving a mutable reference
+* `into_iter()` iterates over the items by value, i.e. with a move
+
+How iterators are implemented for other types are by convention:
+* `into_iter()` is largely to enable for loops (through `IntoIterator` trait), author's choice. `T`, `&T`, or `&mut T`
+* `iter()` has no trait, but by convention it returns `&T` 
+* `iter_mut()` has no trait, but by convention it returns `mut &T`
+
+Given that the method names are arbitrary, `String` for example has `chars` and `bytes`, returning iterators over the string's
+characters and bytes respectively.
+
+# Functions that take iterators as arguments
+
+## New style using `impl Trait`
+*Todo: are there downsides to this?*
+```
+use std::collections::HashMap;
+
+fn find_min<'a>(vals: impl Iterator<Item = &'a u32>) -> Option<&'a u32> {
+    vals.min()
+}
+
+fn main() {
+    let mut map = HashMap::new();
+    map.insert("zero", 0u32);
+    map.insert("one", 1u32);
+    println!("Min value {:?}", find_min(map.values()));
+}
+```
+
+## Old style using generics
+```
+fn find_min<'a, I>(vals: I) -> Option<&'a u32>
+where
+    I: IntoIterator<Item = &'a u32>,
+{
+    vals.into_iter().min()
+}
+```
+
+## Tracing
+
 
